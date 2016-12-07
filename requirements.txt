@@ -1,0 +1,4 @@
+synapse-snappy-lib
+paho-mqtt
+tornado
+snapstraction

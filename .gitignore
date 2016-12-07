@@ -1,0 +1,110 @@
+# Versioner
+_version.py
+version.txt
+
+# SNAP Connect
+nvparams.dat
+
+# Log Files
+synapse-data-collector.log.*
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+bin/
+build/
+develop-eggs/
+dist/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv
+.venv
+env/
+.env
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+synapse-data-collector_test*.sqlite
+synapse-data-collector.sqlite
+nvparams_test*.dat
+
+# Pylint
+.pylint.d
+*.stats
+
+# Subversion
+.svn
+
+# Translations
+*.mo
+
+# Wing
+*.wpu
+*.wpr
+
+# PyCharm
+.idea
+
+# IntelliJ
+*.iml
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+
+# Rope
+.ropeproject
+
+# Django stuff:
+*.log
+*.pot
+
+# Sphinx documentation
+docs/_build/
+
+.eggs/
+
+cover
+*sqlite.migrate.*
+*.sqlite-shm
+*.sqlite-wal
+
+# Jenkins configs
+jenkins
+
+# Generated files
+add_deploy_key.py
+add_jobs.py
+add_webhooks.py
+
+# Emacs per-dir customization
+.dir-locals.el
+
+# API Blueprint
+*.apib
+*.raw
