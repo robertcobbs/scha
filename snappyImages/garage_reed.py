@@ -13,7 +13,6 @@ elif platform[:3] == 'SM2':
     REED = GPIO_F1
 
 INITIAL_WAKE_COUNT = 5  # seconds to stay awake upon boot
-wake_counter = INITIAL_WAKE_COUNT
 
 sleep_allowed = True
 last_buffer = -1
@@ -22,11 +21,13 @@ last_buffer = -1
 @setHook(HOOK_STARTUP)
 def init():
     """Startup initialization."""
+    global wake_counter
     # Init reed switch
     setPinDir(REED, False)
     setPinPullup(REED, True)
     monitorPin(REED, True)
     wakeupOn(REED, True, False)
+    wake_counter = INITIAL_WAKE_COUNT
 
 
 @setHook(HOOK_1S)
