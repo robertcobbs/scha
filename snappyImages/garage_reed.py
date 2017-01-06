@@ -77,6 +77,7 @@ def reed_update(state):
     """Broadcast a RPC on reed switch state change."""
     global last_buffer
     mcastRpc(1, 2, 'sensor_update', 'reed_switch', state, localAddr(), batmon_mv())
+    mcastRpc(1, 2, 'sensor_update', 'reed_switch', state, localAddr(), batmon_mv())
     last_buffer = getInfo(9)
 
 
