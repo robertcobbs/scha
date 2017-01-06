@@ -13,7 +13,7 @@ INITIAL_WAKE_COUNT = 20  # seconds to stay awake upon boot
 STATUS_UPDATE_INTERVAL = 600
 
 last_buffer = -1
-sleep_allowed = False
+sleep_allowed = True
 
 @setHook(HOOK_STARTUP)
 def init():
@@ -24,9 +24,7 @@ def init():
     setPinPullup(REED, True)
     monitorPin(REED, True)
     wakeupOn(REED, True, False)
-    reed_switch_status()
     wake_counter = INITIAL_WAKE_COUNT
-    sleep_allow()
 
 
 @setHook(HOOK_1S)
@@ -35,7 +33,7 @@ def tick1sec():
     global wake_counter
     if wake_counter == 0:
         if sleep_allowed:
-            remaining_sleep = sleep(SLEEP_MODE, STATUS_UPDATE_INTERVAL)  # Untimed sleep
+            remaining_sleep = sleep(SLEEP_MODE, STATUS_UPDATE_INTERVAL)  # Sleep for the status update interval
             if remaining_sleep == 0:
                 reed_switch_status()
             else:
@@ -82,7 +80,7 @@ def reed_update(state):
 
 def sleep_prevent():
     # Call this function to keep the node awake
-    global sleep_allowed, wake_counter
+    global sleep_allowed
     sleep_allowed = False
 
 
@@ -90,4 +88,3 @@ def sleep_allow():
     # Call this function to allow the node to sleep
     global sleep_allowed, wake_counter
     sleep_allowed = True
-    wake_counter = 0
