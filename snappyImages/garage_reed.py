@@ -12,14 +12,13 @@ elif platform[:3] == 'SM2':
 INITIAL_WAKE_COUNT = 20  # seconds to stay awake upon boot
 STATUS_UPDATE_INTERVAL = 600
 
-sleep_allowed = True
 last_buffer = -1
 
 
 @setHook(HOOK_STARTUP)
 def init():
     """Startup initialization."""
-    global wake_counter
+    global wake_counter, sleep_allowed
     # Init reed switch
     setPinDir(REED, False)
     setPinPullup(REED, True)
@@ -27,6 +26,7 @@ def init():
     wakeupOn(REED, True, False)
     wake_counter = INITIAL_WAKE_COUNT
     reed_switch_status()
+    sleep_allow()
 
 
 @setHook(HOOK_1S)
@@ -38,7 +38,6 @@ def tick1sec():
             remaining_sleep = sleep(SLEEP_MODE, STATUS_UPDATE_INTERVAL)  # Untimed sleep
             if remaining_sleep == 0:
                 reed_switch_status()
-                wake_counter = 0
             else:
                 wake_counter = -1
     if wake_counter > 0:
