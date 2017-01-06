@@ -13,7 +13,7 @@ INITIAL_WAKE_COUNT = 20  # seconds to stay awake upon boot
 STATUS_UPDATE_INTERVAL = 600
 
 last_buffer = -1
-
+sleep_allowed = False
 
 @setHook(HOOK_STARTUP)
 def init():
