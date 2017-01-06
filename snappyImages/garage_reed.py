@@ -1,18 +1,14 @@
 from synapse.platforms import *
 from synapse.pinWakeup import *
 
-if platform[:3] == ('RF2' or 'SM2'):
-    SLEEP_MODE = 2
-else:
-    SLEEP_MODE = 0
-
-# I/O Pins
 if platform[:3] == 'RF2':
     REED = GPIO_0
+    SLEEP_MODE = 2
 elif platform[:3] == 'SM2':
     REED = GPIO_F1
+    SLEEP_MODE = 2
 
-INITIAL_WAKE_COUNT = 5  # seconds to stay awake upon boot
+INITIAL_WAKE_COUNT = 10  # seconds to stay awake upon boot
 
 sleep_allowed = True
 last_buffer = -1
@@ -77,10 +73,6 @@ def sleep_prevent():
 
 def sleep_allow():
     # Call this function to allow the node to sleep
-    global  sleep_allowed, wake_counter
+    global sleep_allowed, wake_counter
     sleep_allowed = True
     wake_counter = 0
-
-
-def get_sleep_allowed():
-    return sleep_allowed
