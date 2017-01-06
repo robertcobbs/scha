@@ -2,7 +2,7 @@ from synapse.platforms import *
 from synapse.pinWakeup import *
 
 if platform[:3] == 'RF2':
-    REED = GPIO_0
+    REED = GPIO_0  # RF200 pin 2
     SLEEP_MODE = 2
 elif platform[:3] == 'SM2':
     REED = GPIO_F1
