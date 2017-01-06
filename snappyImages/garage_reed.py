@@ -24,8 +24,8 @@ def init():
     setPinPullup(REED, True)
     monitorPin(REED, True)
     wakeupOn(REED, True, False)
-    wake_counter = INITIAL_WAKE_COUNT
     reed_switch_status()
+    wake_counter = INITIAL_WAKE_COUNT
     sleep_allow()
 
 
