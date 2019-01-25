@@ -63,6 +63,7 @@ client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
 client.username_pw_set(BROKER_USERNAME, BROKER_PASSWORD)
+client.tls_set_context()
 client.connect(BROKER_HOST, BROKER_PORT, 60)
 client.loop_start()
 
