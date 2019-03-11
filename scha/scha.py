@@ -28,6 +28,10 @@ gus = Gus(p, n, None)
 gus.start()
 
 
+node_report_intervals = {}
+seconds_since_last_message = {}
+
+
 def led_state(source, color, state, addr):
     topic = 'scha/' + binascii.hexlify(addr) + '/led/' + color + '/state'
     client.publish(topic, payload=str(state), retain=True)
@@ -42,9 +46,44 @@ def sensor_update(source, sensor_type, state, addr):
 gus.on_rpc('sensor_update', sensor_update)
 
 
+def rm150_rpt(source, addr, report_interval, last_amb_temp, last_amb_humid, last_ext1, last_ext2):
+    node_report_intervals[addr] = report_interval
+    seconds_since_last_message[addr] = 0
+
+    topic = 'scha/' + binascii.hexlify(addr) + '/status'
+    client.publish(topic, payload='online', retain=True)
+
+    # Publish updates
+    topic = 'scha/' + binascii.hexlify(addr) + '/report_interval'
+    client.publish(topic, payload=str(report_interval), retain=False)
+
+    topic = 'scha/' + binascii.hexlify(addr) + '/ambient_temp'
+    client.publish(topic, payload=str(last_amb_temp), retain=False)
+
+    topic = 'scha/' + binascii.hexlify(addr) + '/ambient_humidity'
+    client.publish(topic, payload=str(last_amb_humid), retain=False)
+
+    topic = 'scha/' + binascii.hexlify(addr) + '/probe1'
+    client.publish(topic, payload=str(last_ext1), retain=False)
+
+    topic = 'scha/' + binascii.hexlify(addr) + '/probe2'
+    client.publish(topic, payload=str(last_ext2), retain=False)
+
+gus.on_rpc('rm150_rpt', rm150_rpt)
+
+
+def last_message_timeout():
+    for addr in seconds_since_last_message:
+        seconds_since_last_message[addr] += 1
+        if seconds_since_last_message[addr] > (node_report_intervals[addr] * 3):
+            topic = 'scha/' + binascii.hexlify(addr) + '/status'
+            client.publish(topic, payload='offline', retain=False)
+
+
 def on_connect(client, userdata, flags, rc):
     print('MQTT client connect with result code ' + str(rc))
     client.subscribe('scha/#')
+
 
 def on_message(client, userdata, msg):
     print(msg.topic + ' ' + str(msg.payload))
@@ -67,5 +106,7 @@ client.tls_set_context()
 client.connect(BROKER_HOST, BROKER_PORT, 60)
 client.loop_start()
 
+task = tornado.ioloop.PeriodicCallback(last_message_timeout, 1000)
+task.start()
 
 tornado.ioloop.IOLoop.current().start()
