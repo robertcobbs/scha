@@ -108,3 +108,5 @@ add_webhooks.py
 # API Blueprint
 *.apib
 *.raw
+
+.vscode
