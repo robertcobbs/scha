@@ -32,16 +32,16 @@ def set_led(color, state):
 
     if state == 'ON':
         writePin(LED, False)
-        mcastRpc(1, 2, 'led_state', color, 'ON', localAddr())
+        mcastRpc(1, 2, 'led_state', localAddr(), color, 'ON')
     else:
         writePin(LED, True)
-        mcastRpc(1, 2, 'led_state', color, 'OFF', localAddr())
+        mcastRpc(1, 2, 'led_state', localAddr(), color, 'OFF')
 
 def get_temp():
     raw_temp = atmega_temperature_read_raw()
     temp_dC = atmega_temperature_raw_to_dC(raw_temp)
-    mcastRpc(1, 2, 'sensor_update', 'temp', temp_dC, localAddr())
+    mcastRpc(1, 2, 'sensor_update', localAddr(), 'temp', temp_dC)
 
 def get_voltage():
     ps_mV = atmega_ps_voltage()
-    mcastRpc(1, 2, 'sensor_update', 'voltage', ps_mV, localAddr())
+    mcastRpc(1, 2, 'sensor_update', localAddr(), 'voltage', ps_mV

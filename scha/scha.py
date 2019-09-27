@@ -32,14 +32,14 @@ node_report_intervals = {}
 seconds_since_last_message = {}
 
 
-def led_state(source, color, state, addr):
+def led_state(source, addr, color, state):
     topic = 'scha/' + binascii.hexlify(addr) + '/led/' + color + '/state'
     client.publish(topic, payload=str(state), retain=True)
 
 gus.on_rpc('led_state', led_state)
 
 
-def sensor_update(source, sensor_type, state, addr):
+def sensor_update(source, addr, sensor_type, state):
     topic = 'scha/' + binascii.hexlify(addr) + '/' + sensor_type + '/state'
     client.publish(topic, payload=str(state), retain=True)
 
@@ -70,6 +70,13 @@ def rm150_rpt(source, addr, report_interval, last_amb_temp, last_amb_humid, last
     client.publish(topic, payload=str(last_ext2), retain=False)
 
 gus.on_rpc('rm150_rpt', rm150_rpt)
+
+
+def ls_report(source, addr, ls_version, batt, photo, temperature, report_type)
+    topic = 'scha/' + binascii.hexlify(addr) + '/' + 'motion/state'
+    client.publish(topic, payload=str(report_type), retain=True)
+
+gus.on_rpc('ls_report', ls_report)
 
 
 def last_message_timeout():

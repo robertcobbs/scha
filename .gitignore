@@ -110,3 +110,5 @@ add_webhooks.py
 *.raw
 
 .vscode
+
+lightsense_hijack.sh

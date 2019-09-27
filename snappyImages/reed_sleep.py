@@ -85,7 +85,7 @@ def reed_update(state):
     """Broadcast a RPC on reed switch state change."""
     global last_buffer
     pulsePin(LED2_YLW, 50, True)
-    mcastRpc(1, 2, 'sensor_update', 'reed_switch', state, localAddr())
+    mcastRpc(1, 5, 'sensor_update', localAddr(), 'reed_switch', state)
     last_buffer = getInfo(9)
 
 def sleep_prevent():
@@ -106,4 +106,4 @@ def report_button_count():
     """Broadcast a status RPC."""
     global button_count
     button_count += 1
-    mcastRpc(1, 2, 'set_button_count', button_count, localAddr())
+    mcastRpc(1, 2, 'set_button_count', localAddr(), button_count)
